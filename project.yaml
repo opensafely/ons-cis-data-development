@@ -4,3 +4,11 @@ expectations:
   population_size: 1000
 
 actions:
+  visit_num:
+    run: sqlrunner:latest
+      --output output/raw/visit_num.csv
+      --dummy-data-file analysis/visit_num.csv
+      analysis/visit_num.sql
+    outputs:
+      moderately_sensitive:
+        rows: output/raw/visit_num.csv
