@@ -10,7 +10,7 @@ actions:
       --dummy-data-file analysis/visit_num.csv
       analysis/visit_num.sql
     outputs:
-      moderately_sensitive:
+      highly_sensitive:
         rows: output/raw/visit_num.csv
 
   make_safe:
