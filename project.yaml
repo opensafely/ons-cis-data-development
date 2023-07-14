@@ -12,3 +12,15 @@ actions:
     outputs:
       moderately_sensitive:
         rows: output/raw/visit_num.csv
+
+  make_safe:
+    needs: [visit_num]
+    run: python:latest python analysis/make_safe.py
+    config:
+      tables:
+        - from: output/raw/visit_num.csv
+          to: output/safe/visit_num.csv
+          columns: [num_rows]
+    outputs:
+      moderately_sensitive:
+        rows: output/safe/*.csv
