@@ -24,3 +24,10 @@ actions:
     outputs:
       moderately_sensitive:
         rows: output/safe/*.csv
+
+  render_report:
+    needs: [make_safe]
+    run: python:latest python analysis/render_report.py
+    outputs:
+      moderately_sensitive:
+        report: output/report.html

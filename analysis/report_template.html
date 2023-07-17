@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>ONS CIS Short Data Report</title>
+</head>
+
+<body>
+    <h1>ONS CIS Short Data Report</h1>
+    <p>
+        This report displays information about the ONS CIS data source in the OpenSAFELY-TPP database.
+        It is part of the OpenSAFELY platform's technical documentation
+        and is published at <a href="https://reports.opensafely.org/">https://reports.opensafely.org/</a>.
+    </p>
+    <p class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+        This report should not be used for inference about any aspect of the pandemic, public health, or health service activity.
+        For the avoidance of doubt, any clinical or epidemiological interpretation of this report is likely to be a misinterpretation.
+    </p>
+    <p>
+        If you would like to use the OpenSAFELY platform, then you should read
+        our <a href="https://docs.opensafely.org/">documentation</a>,
+        our <a href="https://www.opensafely.org/about/">principles</a>,
+        and our process for <a href="https://www.opensafely.org/onboarding-new-users/">onboarding new users</a>.
+        If you would like to see the code we used to create this report,
+        then you can <a href="https://github.com/opensafely/ons-cis-short-data-report">view it on GitHub</a>.
+    </p>
+    <h2>Columns</h2>
+    <p>
+        Counts that are less than or equal to seven are redacted.
+        Counts are then rounded to the nearest five.
+        For more information, see the
+        <a href="https://docs.opensafely.org/releasing-files/">Safe Outputs</a>
+        page of the OpenSAFELY documentation.
+    </p>
+    {% for table in tables %}
+    <h3><a href="#{{ table.for_column }}"><code>{{ table.for_column }}</code></a></h3>
+    <table>
+        {% for row in table.rows %}
+        {% if loop.first %}
+        <tr>
+            {% for column in row %}
+            <th>{{ column }}</th>
+            {% endfor %}
+        </tr>
+        {% else %}
+        <tr>
+            {% for column in row %}
+            <td>{{ column }}</td>
+            {% endfor %}
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% endfor %}
+</body>
+
+</html>
