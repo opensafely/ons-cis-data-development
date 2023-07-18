@@ -8,6 +8,8 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+import utils
+
 ENVIRONMENT = Environment(
     loader=FileSystemLoader("analysis"),
     undefined=StrictUndefined,
@@ -15,16 +17,16 @@ ENVIRONMENT = Environment(
 
 
 def main():
-    f_out = Path("output/report.html")
+    args = utils.parse_args()
     rendered_report = render_report(
         {
             "tables": (
-                dict(for_column=x, rows=read_csv(f"output/safe/{x}.csv"))
-                for x in ["visit_num"]
+                dict(for_column=p.stem, rows=read_csv(p))
+                for p in (Path(t) for t in args["config"]["tables"])
             ),
         }
     )
-    f_out.write_text(rendered_report, encoding="utf-8")
+    Path(args["config"]["to"]).write_text(rendered_report, encoding="utf-8")
 
 
 def render_report(data):
@@ -32,8 +34,8 @@ def render_report(data):
     return template.render(data)
 
 
-def read_csv(fname):
-    with open(fname, newline="") as f:
+def read_csv(fpath):
+    with fpath.open(newline="") as f:
         yield from csv.reader(f)
 
 
