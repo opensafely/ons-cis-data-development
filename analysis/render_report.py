@@ -21,8 +21,8 @@ def main():
     rendered_report = render_report(
         {
             "tables": (
-                dict(for_column=x, rows=read_csv(f"output/safe/{x}.csv"))
-                for x in ["visit_num"]
+                dict(for_column=p.stem, rows=read_csv(p))
+                for p in (Path(t) for t in args["config"]["tables"])
             ),
         }
     )
@@ -34,8 +34,8 @@ def render_report(data):
     return template.render(data)
 
 
-def read_csv(fname):
-    with open(fname, newline="") as f:
+def read_csv(fpath):
+    with fpath.open(newline="") as f:
         yield from csv.reader(f)
 
 

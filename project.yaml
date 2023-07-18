@@ -29,6 +29,8 @@ actions:
     needs: [make_safe]
     run: python:latest python analysis/render_report.py
     config:
+      tables:
+        - output/safe/visit_num.csv
       to: output/safe/report.html
     outputs:
       moderately_sensitive:
