@@ -13,13 +13,27 @@ actions:
       highly_sensitive:
         rows: output/raw/visit_num.csv
 
+  visit_status:
+    run: sqlrunner:latest
+      --output output/raw/visit_status.csv
+      --dummy-data-file analysis/visit_status.csv
+      analysis/visit_status.sql
+    outputs:
+      highly_sensitive:
+        rows: output/raw/visit_status.csv
+
   make_safe:
-    needs: [visit_num]
+    needs:
+      - visit_num
+      - visit_status
     run: python:latest python analysis/make_safe.py
     config:
       tables:
         - from: output/raw/visit_num.csv
           to: output/safe/visit_num.csv
+          columns: [num_rows]
+        - from: output/raw/visit_status.csv
+          to: output/safe/visit_status.csv
           columns: [num_rows]
     outputs:
       moderately_sensitive:
@@ -31,6 +45,7 @@ actions:
     config:
       tables:
         - output/safe/visit_num.csv
+        - output/safe/visit_status.csv
       to: output/safe/report.html
     outputs:
       moderately_sensitive:
