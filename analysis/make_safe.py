@@ -1,21 +1,14 @@
-from argparse import ArgumentParser
 import csv
-import json
 from pathlib import Path
 
 import sdc
+import utils
 
 
 def main():
-    args = parse_args()
+    args = utils.parse_args()
     for table in args["config"]["tables"]:
         make_safe(table["from"], table["columns"], table["to"])
-
-
-def parse_args():
-    parser = ArgumentParser()
-    parser.add_argument("--config", type=json.loads)
-    return vars(parser.parse_args())
 
 
 def make_safe(in_, columns_to_make_safe, out_):
