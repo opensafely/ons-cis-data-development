@@ -28,6 +28,8 @@ actions:
   render_report:
     needs: [make_safe]
     run: python:latest python analysis/render_report.py
+    config:
+      to: output/report.html
     outputs:
       moderately_sensitive:
         report: output/report.html

@@ -8,6 +8,8 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+import utils
+
 ENVIRONMENT = Environment(
     loader=FileSystemLoader("analysis"),
     undefined=StrictUndefined,
@@ -15,7 +17,7 @@ ENVIRONMENT = Environment(
 
 
 def main():
-    f_out = Path("output/report.html")
+    args = utils.parse_args()
     rendered_report = render_report(
         {
             "tables": (
@@ -24,7 +26,7 @@ def main():
             ),
         }
     )
-    f_out.write_text(rendered_report, encoding="utf-8")
+    Path(args["config"]["to"]).write_text(rendered_report, encoding="utf-8")
 
 
 def render_report(data):
